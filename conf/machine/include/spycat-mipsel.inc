@@ -1,7 +1,35 @@
+TARGET_ARCH = "mipsel"
+DEFAULTTUNE = "mips32el"
+
+require conf/machine/include/tune-mips32.inc
+
+MACHINE_KERNEL_PR = "r0"
+
+require conf/machine/include/spycat-essential.inc
+
+KERNEL_MODULE_AUTOLOAD += "xfs"
+
 IMAGE_FSTYPES ?= "ubi"
 UBI_VOLNAME = "rootfs"
 MKUBIFS_ARGS = "-m 2048 -e 126976 -c 4096 -F"
 UBINIZE_ARGS = "-m 2048 -p 128KiB"
+
+PREFERRED_PROVIDER_virtual/kernel = "linux-spycat"
+
+# We know about rtc
+MACHINE_FEATURES_BACKFILL_CONSIDERED = "rtc"
+
+MACHINE_ESSENTIAL_EXTRA_RDEPENDS = " \
+	spycat-dvb-modules-${MACHINE} \
+	"
+
+MACHINE_EXTRA_RRECOMMENDS += "gst-plugin-dvbmediasink"
+
+DVBMEDIASINK_CONFIG = "--with-wma --with-wmv --with-pcm --with-dts --with-eac3 \
+	${@bb.utils.contains('MACHINE_FEATURES', 'h265', '--with-h265' , '', d)} \
+	"
+
+MACHINE_FEATURES += " alsa wlan 3dtv switchoff osdposition hdmicec"
 
 IMAGEDIR ?= "${MACHINE}"
 IMGDEPLOYDIR ?= "${DEPLOY_DIR_IMAGE}"
