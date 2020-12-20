@@ -29,7 +29,7 @@ DVBMEDIASINK_CONFIG = "--with-wma --with-wmv --with-pcm --with-dts --with-eac3 \
 	${@bb.utils.contains('MACHINE_FEATURES', 'h265', '--with-h265' , '', d)} \
 	"
 
-MACHINE_FEATURES += " alsa wlan 3dtv switchoff osdposition hdmicec"
+MACHINE_FEATURES += " alsa wlan 3dtv switchoff osdposition hdmicec HDMI"
 
 IMAGEDIR ?= "${MACHINE}"
 IMGDEPLOYDIR ?= "${DEPLOY_DIR_IMAGE}"
@@ -51,3 +51,18 @@ IMAGE_CMD_ubi_append = " \
 	zip ${DISTRO_NAME}-${DISTRO_VERSION}-${MACHINE}_usb.zip ${IMAGEDIR}/*; \
 	rm -rf ${IMAGEDIR}; \
 	"
+
+SOC_FAMILY = "bcm7362"
+
+MTD_KERNEL = "mtd0"
+MTD_ROOTFS = "mtd2"
+
+ROOTFS_FILE = "rootfs.bin"
+
+STB_PLATFORM = "mipsspycat"
+
+BOX_BRAND = "xcore"
+
+KERNEL_FILE = "kernel.bin"
+
+RCNAME = "xcore1"
